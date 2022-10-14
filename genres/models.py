@@ -1,5 +1,3 @@
-from collections import namedtuple
-from pydoc import synopsis
 from django.db import models
 
 
