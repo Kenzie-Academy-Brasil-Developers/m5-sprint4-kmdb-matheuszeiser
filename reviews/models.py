@@ -22,9 +22,13 @@ class Review(models.Model):
     )
 
     movie = models.ForeignKey(
-        "movies.Movie", on_delete=models.CASCADE, related_name="reviews", null=True
+        "movies.Movie",
+        on_delete=models.CASCADE,
+        related_name="reviews",
     )
 
     critic = models.ForeignKey(
-        "users.User", on_delete=models.CASCADE, related_name="reviews", null=True
+        "users.User",
+        on_delete=models.CASCADE,
+        related_name="reviews",
     )

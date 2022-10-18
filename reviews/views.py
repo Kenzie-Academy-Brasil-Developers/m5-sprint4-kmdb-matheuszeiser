@@ -9,10 +9,6 @@ from reviews.permissions import IsAdmOrCriticOrSafeMethod, IsCriticOwner
 from reviews.serializers import ReviewSerializer
 
 
-class MoreThan1ReviewError(Exception):
-    ...
-
-
 class ReviewView(APIView, PageNumberPagination):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdmOrCriticOrSafeMethod]
@@ -32,10 +28,7 @@ class ReviewView(APIView, PageNumberPagination):
         serializer = ReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        try:
-            if len(reviews) > 0:
-                raise MoreThan1ReviewError
-        except MoreThan1ReviewError:
+        if len(reviews) > 0:
             return Response({"detail": "Just one review per movie"})
 
         serializer.save(critic=request.user, movie=movie)
@@ -59,6 +52,6 @@ class ReviewDetailView(APIView):
 
         self.check_object_permissions(request, review)
 
-        # review.delete()
+        review.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
